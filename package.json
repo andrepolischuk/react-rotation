@@ -1,0 +1,28 @@
+{
+  "name": "react-rotation",
+  "description": "React rotation component",
+  "version": "0.0.0",
+  "keywords": [
+    "react",
+    "image",
+    "rotation",
+    "wheel",
+    "mouse",
+    "touch"
+  ],
+  "repository": "andrepolischuk/react-rotation",
+  "dependencies": {
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel": "^5.5.6"
+  },
+  "main": "index.es5.js",
+  "scripts": {
+    "transpile": "babel --stage 0 index.js > index.es5.js",
+    "prepublish": "npm run transpile",
+    "postpublish": "rm -rf *.es5.js"
+  },
+  "author": "Andrey Polischuk <andre.polischuk@gmail.com>",
+  "license": "MIT"
+}

@@ -1,24 +1,5 @@
-
-/**
- * Module dependencies
- */
-
 import React, {Component} from 'react';
-
-/**
- * Container styles
- */
-
 const styles = {position: 'relative'};
-
-/**
- * Expose Rotation
- *
- * @param {Array} data
- * @param {Boolean} cycle
- * @param {Boolean} vertical
- * @api public
- */
 
 export default class Rotation extends Component {
   state = {current: 0};

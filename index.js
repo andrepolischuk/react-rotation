@@ -55,7 +55,7 @@ export default class Rotation extends Component {
 
   handleWheel(e) {
     e.preventDefault();
-    const delta = e.deltaY / Math.abs(e.deltaY);
+    const delta = e.deltaY === 0 ? 0 : e.deltaY / Math.abs(e.deltaY);
     this.show(this.state.current + delta);
   }
 

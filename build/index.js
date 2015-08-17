@@ -109,11 +109,6 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],3:[function(require,module,exports){
-
-/**
- * Module dependencies
- */
-
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -128,28 +123,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-/**
- * Container styles
- */
-
 var styles = { position: 'relative' };
 
-/**
- * Expose Rotation
- *
- * @param {Array} data
- * @param {Boolean} cycle
- * @param {Boolean} vertical
- * @api public
- */
-
 var Rotation = (function (_Component) {
+  _inherits(Rotation, _Component);
+
   function Rotation(props) {
     _classCallCheck(this, Rotation);
 
@@ -160,8 +144,6 @@ var Rotation = (function (_Component) {
     this.handleTouchMove = this.handleTouchMove.bind(this);
     this.handleTouchEnd = this.handleTouchEnd.bind(this);
   }
-
-  _inherits(Rotation, _Component);
 
   _createClass(Rotation, [{
     key: 'componentDidMount',
@@ -191,7 +173,7 @@ var Rotation = (function (_Component) {
     key: 'handleWheel',
     value: function handleWheel(e) {
       e.preventDefault();
-      var delta = e.deltaY / Math.abs(e.deltaY);
+      var delta = e.deltaY === 0 ? 0 : e.deltaY / Math.abs(e.deltaY);
       this.show(this.state.current + delta);
     }
   }, {

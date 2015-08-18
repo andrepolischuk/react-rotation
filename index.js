@@ -23,6 +23,11 @@ export default class Rotation extends Component {
     document.addEventListener('mouseup', this.handleTouchEnd, false);
   }
 
+  componentDidUpdate() {
+    const handleChange = this.props.onChange;
+    if (typeof handleChange === 'function') handleChange(this.state.current);
+  }
+
   componentWillUnmount() {
     const el = React.findDOMNode(this.refs.container);
     el.removeEventListener('wheel', this.handleWheel, false);

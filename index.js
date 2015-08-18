@@ -42,25 +42,25 @@ export default class Rotation extends Component {
 
   handleTouchStart(e) {
     e.preventDefault();
-    const pointer = this.pointerPosition(e);
-    const touched = this.state.current;
-    this.setState({pointer, touched});
+    this.pointer = this.pointerPosition(e);
+    this.touched = this.state.current;
   }
 
   handleTouchMove(e) {
     e.preventDefault();
-    if (typeof this.state.pointer !== 'number') return;
+    if (typeof this.pointer !== 'number') return;
     const el = React.findDOMNode(this.refs.container);
     const pointer = this.pointerPosition(e);
     const max = this.props.vertical ? el.offsetHeight : el.offsetWidth;
-    const offset = pointer - this.state.pointer;
+    const offset = pointer - this.pointer;
     const delta = Math.floor(offset / max * this.props.data.length);
-    this.show(this.state.touched + delta);
+    this.show(this.touched + delta);
   }
 
   handleTouchEnd(e) {
     e.preventDefault();
-    this.setState({pointer: null, touched: null});
+    this.pointer = null;
+    this.touched = null;
   }
 
   pointerPosition(e) {
@@ -76,7 +76,7 @@ export default class Rotation extends Component {
     const len = this.props.data.length;
     if (n < 0) n = this.props.cycle ? n + len : 0;
     if (n > len - 1) n = this.props.cycle ? n - len : len - 1;
-    this.setState({current: n});
+    if (n !== this.state.current) this.setState({current: n});
   }
 
   render() {

@@ -34,45 +34,46 @@ export default class Rotation extends Component {
     document.removeEventListener('mouseup', this.handleTouchEnd, false);
   }
 
-  handleWheel(e) {
-    e.preventDefault();
-    const delta = e.deltaY === 0 ? 0 : e.deltaY / Math.abs(e.deltaY);
-    this.setCurrent(this.state.current + delta);
+  handleWheel(event) {
+    event.preventDefault();
+    const deltaY = event.deltaY;
+    const delta = deltaY === 0 ? 0 : deltaY / Math.abs(deltaY);
+    this.setCurrentFrame(this.state.current + delta);
   }
 
-  handleTouchStart(e) {
-    e.preventDefault();
-    this.pointerPosition = this.calculatePointerPosition(e);
+  handleTouchStart(event) {
+    event.preventDefault();
+    this.pointerPosition = this.calculatePointerPosition(event);
     this.startFrame = this.state.current;
   }
 
-  handleTouchMove(e) {
-    e.preventDefault();
+  handleTouchMove(event) {
+    event.preventDefault();
     if (typeof this.pointerPosition !== 'number') return;
     const el = React.findDOMNode(this.refs.container);
-    const pointer = this.calculatePointerPosition(e);
+    const pointer = this.calculatePointerPosition(event);
     const max = this.props.vertical ? el.offsetHeight : el.offsetWidth;
     const offset = pointer - this.pointerPosition;
     const delta = Math.floor(offset / max * this.props.data.length);
-    this.setCurrent(this.startFrame + delta);
+    this.setCurrentFrame(this.startFrame + delta);
   }
 
-  handleTouchEnd(e) {
-    e.preventDefault();
+  handleTouchEnd(event) {
+    event.preventDefault();
     this.pointerPosition = null;
     this.startFrame = null;
   }
 
-  calculatePointerPosition(e) {
-    e = e.type.indexOf('touch') === 0 ? e.changedTouches[0] : e;
+  calculatePointerPosition(event) {
+    event = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event;
     const el = React.findDOMNode(this.refs.container);
     const pos = this.props.vertical ?
-      e.clientY - el.offsetTop :
-      e.clientX - el.offsetLeft;
+      event.clientY - el.offsetTop :
+      event.clientX - el.offsetLeft;
     return pos;
   }
 
-  setCurrent(n) {
+  setCurrentFrame(n) {
     const len = this.props.data.length;
     if (n < 0) n = this.props.cycle ? n + len : 0;
     if (n > len - 1) n = this.props.cycle ? n - len : len - 1;

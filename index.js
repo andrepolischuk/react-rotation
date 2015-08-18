@@ -1,6 +1,7 @@
-
+import Indicator from './components/indicator';
 import React from 'react';
 import Rotation from 'react-rotation';
+import store from './components/store';
 
 const data = [
   'images/00.jpg',
@@ -21,5 +22,14 @@ const data = [
   'images/15.jpg'
 ];
 
-const rotation = document.querySelector('.rotation');
-React.render(<Rotation cycle={true} data={data} />, rotation);
+React.render(
+  <div>
+    <Rotation
+      cycle={true}
+      data={data}
+      onChange={store.emit.bind(store, 'change')}
+    />
+    <Indicator />
+  </div>,
+  document.querySelector('.rotation')
+);

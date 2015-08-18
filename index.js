@@ -37,33 +37,33 @@ export default class Rotation extends Component {
   handleWheel(e) {
     e.preventDefault();
     const delta = e.deltaY === 0 ? 0 : e.deltaY / Math.abs(e.deltaY);
-    this.show(this.state.current + delta);
+    this.setCurrent(this.state.current + delta);
   }
 
   handleTouchStart(e) {
     e.preventDefault();
-    this.pointer = this.pointerPosition(e);
-    this.touched = this.state.current;
+    this.pointerPosition = this.calculatePointerPosition(e);
+    this.startFrame = this.state.current;
   }
 
   handleTouchMove(e) {
     e.preventDefault();
-    if (typeof this.pointer !== 'number') return;
+    if (typeof this.pointerPosition !== 'number') return;
     const el = React.findDOMNode(this.refs.container);
-    const pointer = this.pointerPosition(e);
+    const pointer = this.calculatePointerPosition(e);
     const max = this.props.vertical ? el.offsetHeight : el.offsetWidth;
-    const offset = pointer - this.pointer;
+    const offset = pointer - this.pointerPosition;
     const delta = Math.floor(offset / max * this.props.data.length);
-    this.show(this.touched + delta);
+    this.setCurrent(this.startFrame + delta);
   }
 
   handleTouchEnd(e) {
     e.preventDefault();
-    this.pointer = null;
-    this.touched = null;
+    this.pointerPosition = null;
+    this.startFrame = null;
   }
 
-  pointerPosition(e) {
+  calculatePointerPosition(e) {
     e = e.type.indexOf('touch') === 0 ? e.changedTouches[0] : e;
     const el = React.findDOMNode(this.refs.container);
     const pos = this.props.vertical ?
@@ -72,7 +72,7 @@ export default class Rotation extends Component {
     return pos;
   }
 
-  show(n) {
+  setCurrent(n) {
     const len = this.props.data.length;
     if (n < 0) n = this.props.cycle ? n + len : 0;
     if (n > len - 1) n = this.props.cycle ? n - len : len - 1;

@@ -26,6 +26,13 @@ const data = [
 React.render(<Rotation data={data} />, document.querySelector('.container'));
 ```
 
+## Props
+
+  * `className` - class name of container, *string*
+  * `cycle` - cyclic rotation, *boolean*
+  * `data` - image url list, *array*
+  * `onChange` - frame change event handler, *function*
+
 ## License
 
   MIT

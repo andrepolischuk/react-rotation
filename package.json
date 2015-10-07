@@ -15,10 +15,12 @@
     "react": "^0.13.3"
   },
   "devDependencies": {
+    "ava": "^0.2.0",
     "babel": "^5.5.6"
   },
   "main": "index.es5.js",
   "scripts": {
+    "test": "babel-node --stage 0 test.js",
     "transpile": "babel --stage 0 index.js > index.es5.js",
     "prepublish": "npm run transpile",
     "postpublish": "rm -rf *.es5.js"

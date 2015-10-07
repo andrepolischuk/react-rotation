@@ -1,4 +1,4 @@
-# react-rotation
+# react-rotation [![Build Status][travis-image]][travis-url]
 
   > [React][react] rotation component
 
@@ -36,5 +36,8 @@ React.render(<Rotation data={data} />, document.querySelector('.container'));
 ## License
 
   MIT
+
+[travis-url]: https://travis-ci.org/andrepolischuk/react-rotation
+[travis-image]: https://travis-ci.org/andrepolischuk/react-rotation.svg?branch=master
 
 [react]: https://github.com/facebook/react

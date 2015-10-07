@@ -1,8 +1,8 @@
 # react-rotation [![Build Status][travis-image]][travis-url]
 
-  > [React][react] rotation component
+> [React][react] rotation component
 
-  Supports wheel, mouse and touch events
+Supports wheel, mouse and touch events
 
 ## Install
 
@@ -28,14 +28,14 @@ React.render(<Rotation data={data} />, document.querySelector('.container'));
 
 ## Props
 
-  * `className` - class name of container, *string*
-  * `cycle` - cyclic rotation, *boolean*
-  * `data` - image url list, *array*
-  * `onChange` - frame change event handler, *function*
+* `className` - class name of container, *string*
+* `cycle` - cyclic rotation, *boolean*
+* `data` - image url list, *array*
+* `onChange` - frame change event handler, *function*
 
 ## License
 
-  MIT
+MIT
 
 [travis-url]: https://travis-ci.org/andrepolischuk/react-rotation
 [travis-image]: https://travis-ci.org/andrepolischuk/react-rotation.svg?branch=master

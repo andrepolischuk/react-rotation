@@ -1,3 +1,4 @@
+import autobind from 'autobind-decorator';
 import React, {Component} from 'react';
 const styles = {position: 'relative'};
 
@@ -6,10 +7,6 @@ export default class Rotation extends Component {
 
   constructor(props) {
     super(props);
-    this.handleWheel = ::this.handleWheel;
-    this.handleTouchStart = ::this.handleTouchStart;
-    this.handleTouchMove = ::this.handleTouchMove;
-    this.handleTouchEnd = ::this.handleTouchEnd;
   }
 
   componentDidMount() {
@@ -39,6 +36,7 @@ export default class Rotation extends Component {
     document.removeEventListener('mouseup', this.handleTouchEnd, false);
   }
 
+  @autobind
   handleWheel(event) {
     event.preventDefault();
     const deltaY = event.deltaY;
@@ -46,12 +44,14 @@ export default class Rotation extends Component {
     this.setCurrentFrame(this.state.current + delta);
   }
 
+  @autobind
   handleTouchStart(event) {
     event.preventDefault();
     this.pointerPosition = this.calculatePointerPosition(event);
     this.startFrame = this.state.current;
   }
 
+  @autobind
   handleTouchMove(event) {
     event.preventDefault();
     if (typeof this.pointerPosition !== 'number') return;
@@ -63,6 +63,7 @@ export default class Rotation extends Component {
     this.setCurrentFrame(this.startFrame + delta);
   }
 
+  @autobind
   handleTouchEnd(event) {
     event.preventDefault();
     this.pointerPosition = null;

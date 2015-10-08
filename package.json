@@ -12,6 +12,7 @@
   ],
   "repository": "andrepolischuk/react-rotation",
   "dependencies": {
+    "autobind-decorator": "^1.3.2",
     "react": "^0.13.3"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 import autobind from 'autobind-decorator';
 import React, {Component} from 'react';
+import {findDOMNode} from 'react-dom';
 const styles = {position: 'relative'};
 
 export default class Rotation extends Component {
@@ -10,7 +11,7 @@ export default class Rotation extends Component {
   }
 
   componentDidMount() {
-    const el = React.findDOMNode(this);
+    const el = findDOMNode(this);
     el.addEventListener('wheel', this.handleWheel, false);
     el.addEventListener('touchstart', this.handleTouchStart, false);
     el.addEventListener('touchmove', this.handleTouchMove, false);
@@ -26,7 +27,7 @@ export default class Rotation extends Component {
   }
 
   componentWillUnmount() {
-    const el = React.findDOMNode(this);
+    const el = findDOMNode(this);
     el.removeEventListener('wheel', this.handleWheel, false);
     el.removeEventListener('touchstart', this.handleTouchStart, false);
     el.removeEventListener('touchmove', this.handleTouchMove, false);
@@ -55,7 +56,7 @@ export default class Rotation extends Component {
   handleTouchMove(event) {
     event.preventDefault();
     if (typeof this.pointerPosition !== 'number') return;
-    const el = React.findDOMNode(this);
+    const el = findDOMNode(this);
     const pointer = this.calculatePointerPosition(event);
     const max = this.props.vertical ? el.offsetHeight : el.offsetWidth;
     const offset = pointer - this.pointerPosition;
@@ -72,7 +73,7 @@ export default class Rotation extends Component {
 
   calculatePointerPosition(event) {
     event = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event;
-    const el = React.findDOMNode(this);
+    const el = findDOMNode(this);
     const pos = this.props.vertical ?
       event.clientY - el.offsetTop :
       event.clientX - el.offsetLeft;

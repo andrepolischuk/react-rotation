@@ -1,7 +1,8 @@
 import test from 'ava';
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react-addons-test-utils';
 import Rotation from './index';
-const shallowRenderer = React.addons.TestUtils.createRenderer();
+const shallowRenderer = TestUtils.createRenderer();
 shallowRenderer.render(<Rotation className="rotation" data={[0, 1, 2]} />);
 const rotation = shallowRenderer.getRenderOutput();
 

@@ -1,5 +1,5 @@
 import autobind from 'autobind-decorator';
-import React, {Component} from 'react';
+import React, {cloneElement, Children, Component} from 'react';
 import {findDOMNode} from 'react-dom';
 const styles = {position: 'relative'};
 
@@ -60,7 +60,7 @@ export default class Rotation extends Component {
     const pointer = this.calculatePointerPosition(event);
     const max = this.props.vertical ? el.offsetHeight : el.offsetWidth;
     const offset = pointer - this.pointerPosition;
-    const delta = Math.floor(offset / max * this.props.data.length);
+    const delta = Math.floor(offset / max * this.props.children.length);
     this.setCurrentFrame(this.startFrame + delta);
   }
 
@@ -81,7 +81,7 @@ export default class Rotation extends Component {
   }
 
   setCurrentFrame(n) {
-    const len = this.props.data.length;
+    const len = this.props.children.length;
     if (n < 0) n = this.props.cycle ? n + len : 0;
     if (n > len - 1) n = this.props.cycle ? n - len : len - 1;
     if (n !== this.state.current) this.setState({current: n});
@@ -90,10 +90,9 @@ export default class Rotation extends Component {
   render() {
     return (
       <div className={this.props.className} style={styles}>
-        {this.props.data.map((src, i) => {
+        {Children.map(this.props.children, (child, i) => {
           const display = this.state.current === i ? 'block' : 'none';
-          const imgStyles = {display, width: '100%'};
-          return <img src={src} alt='' key={i} style={imgStyles} />;
+          return cloneElement(child, {style: {display, width: '100%'}});
         })}
       </div>
     );

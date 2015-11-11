@@ -14,23 +14,24 @@ npm install --save react-rotation
 
 ```js
 import React from 'react';
+import {render} from 'react-dom';
 import Rotation from 'react-rotation';
 
-const data = [
-  'images/00.jpg',
-  'images/01.jpg',
-  'images/02.jpg',
-  'images/03.jpg'
-];
-
-React.render(<Rotation data={data} />, document.querySelector('.container'));
+render(
+  <Rotation>
+    <img src='images/00.jpg' />
+    <img src='images/01.jpg' />
+    <img src='images/02.jpg' />
+    <img src='images/03.jpg' />
+  </Rotation>,
+  document.querySelector('.container')
+);
 ```
 
 ## Props
 
 * `className` - class name of container, *string*
 * `cycle` - cyclic rotation, *boolean*
-* `data` - image url list, *array*
 * `onChange` - frame change event handler, *function*
 
 ## License

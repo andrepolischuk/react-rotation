@@ -74,9 +74,7 @@ export default class Rotation extends Component {
   calculatePointerPosition(event) {
     event = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event;
     const el = findDOMNode(this);
-    const pos = this.props.vertical ?
-      event.clientY - el.offsetTop :
-      event.clientX - el.offsetLeft;
+    const pos = this.props.vertical ? event.clientY - el.offsetTop : event.clientX - el.offsetLeft;
     return pos;
   }
 

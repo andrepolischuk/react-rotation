@@ -6,8 +6,9 @@
   "dependencies": {
     "bootstrap-gh-pages": "^0.2.1",
     "events": "^1.0.2",
-    "react": "^0.13.3",
-    "react-rotation": "^0.2.0"
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-rotation": "^0.3.0"
   },
   "devDependencies": {
     "babelify": "^6.1.2",

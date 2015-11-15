@@ -1,34 +1,29 @@
-import Indicator from './components/indicator';
 import React from 'react';
+import {render} from 'react-dom';
 import Rotation from 'react-rotation';
+import Indicator from './components/indicator';
 import store from './components/store';
 
-const data = [
-  'images/00.jpg',
-  'images/01.jpg',
-  'images/02.jpg',
-  'images/03.jpg',
-  'images/04.jpg',
-  'images/05.jpg',
-  'images/06.jpg',
-  'images/07.jpg',
-  'images/08.jpg',
-  'images/09.jpg',
-  'images/10.jpg',
-  'images/11.jpg',
-  'images/12.jpg',
-  'images/13.jpg',
-  'images/14.jpg',
-  'images/15.jpg'
-];
-
-React.render(
+render(
   <div>
-    <Rotation
-      cycle={true}
-      data={data}
-      onChange={store.emit.bind(store, 'change')}
-    />
+    <Rotation cycle={true} onChange={store.emit.bind(store, 'change')}>
+      <img src='images/00.jpg' />
+      <img src='images/01.jpg' />
+      <img src='images/02.jpg' />
+      <img src='images/03.jpg' />
+      <img src='images/04.jpg' />
+      <img src='images/05.jpg' />
+      <img src='images/06.jpg' />
+      <img src='images/07.jpg' />
+      <img src='images/08.jpg' />
+      <img src='images/09.jpg' />
+      <img src='images/10.jpg' />
+      <img src='images/11.jpg' />
+      <img src='images/12.jpg' />
+      <img src='images/13.jpg' />
+      <img src='images/14.jpg' />
+      <img src='images/15.jpg' />
+    </Rotation>
     <Indicator />
   </div>,
   document.querySelector('.rotation')

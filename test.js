@@ -1,7 +1,7 @@
 import test from 'ava';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import Rotation from './index';
+import Rotation from './index.es5';
 const shallowRenderer = TestUtils.createRenderer();
 
 shallowRenderer.render(
@@ -15,7 +15,6 @@ shallowRenderer.render(
 const rotation = shallowRenderer.getRenderOutput();
 
 test('should be a Rotation', t => {
-  t.plan(8);
   t.true(rotation.props.className === 'rotation');
   t.true(rotation.props.children.length === 3);
 

@@ -6,6 +6,13 @@ const styles = {position: 'relative'};
 export default class Rotation extends Component {
   state = {current: 0};
 
+  static propTypes = {
+    children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
+    className: React.PropTypes.string,
+    cycle: React.PropTypes.bool,
+    onChange: React.PropTypes.func
+  };
+
   constructor(props) {
     super(props);
   }
@@ -96,10 +103,3 @@ export default class Rotation extends Component {
     );
   }
 }
-
-Rotation.propTypes = {
-  children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
-  className: React.PropTypes.string,
-  cycle: React.PropTypes.bool,
-  onChange: React.PropTypes.func
-};

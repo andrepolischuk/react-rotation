@@ -96,3 +96,10 @@ export default class Rotation extends Component {
     );
   }
 }
+
+Rotation.propTypes = {
+  children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
+  className: React.PropTypes.string,
+  cycle: React.PropTypes.bool,
+  onChange: React.PropTypes.func
+};

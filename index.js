@@ -1,5 +1,5 @@
 import autobind from 'autobind-decorator';
-import React, {cloneElement, Children, Component} from 'react';
+import React, {cloneElement, Children, Component, PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 const styles = {position: 'relative'};
 
@@ -7,10 +7,10 @@ export default class Rotation extends Component {
   state = {current: 0};
 
   static propTypes = {
-    children: React.PropTypes.arrayOf(React.PropTypes.element).isRequired,
-    className: React.PropTypes.string,
-    cycle: React.PropTypes.bool,
-    onChange: React.PropTypes.func
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    className: PropTypes.string,
+    cycle: PropTypes.bool,
+    onChange: PropTypes.func
   };
 
   constructor(props) {

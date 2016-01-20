@@ -14,7 +14,7 @@ shallowRenderer.render(
 
 const rotation = shallowRenderer.getRenderOutput();
 
-test('should be a Rotation', t => {
+test(t => {
   t.true(rotation.props.className === 'rotation');
   t.true(rotation.props.children.length === 3);
 

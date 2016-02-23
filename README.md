@@ -36,7 +36,7 @@ render(
 
 ## Related
 
-* [circlr][circlr] — Animation rotation via scroll, mouse and touch events
+* [circlr][circlr] — animation rotation via scroll, mouse and touch events
 
 ## License
 

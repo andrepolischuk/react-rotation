@@ -34,6 +34,10 @@ render(
 * `cycle` - cyclic rotation, *boolean*
 * `onChange` - frame change event handler, *function*
 
+## Related
+
+* [circlr][circlr] — Animation rotation via scroll, mouse and touch events
+
 ## License
 
 MIT
@@ -42,3 +46,4 @@ MIT
 [travis-image]: https://travis-ci.org/andrepolischuk/react-rotation.svg?branch=master
 
 [react]: https://github.com/facebook/react
+[circlr]: https://github.com/andrepolischuk/circlr

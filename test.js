@@ -6,9 +6,9 @@ const shallowRenderer = TestUtils.createRenderer();
 
 shallowRenderer.render(
   <Rotation className='rotation'>
-    <img src='0' />
-    <img src='1' />
-    <img src='2' />
+    <img src='0.jpg' />
+    <img src='1.jpg' />
+    <img src='2.jpg' />
   </Rotation>
 );
 
@@ -20,6 +20,6 @@ test(t => {
 
   rotation.props.children.forEach((child, i) => {
     t.true(child.type === 'img');
-    t.true(child.props.src === i.toString());
+    t.true(child.props.src === `${i}.jpg`.toString());
   });
 });

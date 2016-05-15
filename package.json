@@ -13,13 +13,13 @@
   "repository": "andrepolischuk/react-rotation",
   "dependencies": {
     "autobind-decorator": "^1.3.2",
-    "react": "^0.14.2",
-    "react-dom": "^0.14.2"
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2"
   },
   "devDependencies": {
     "ava": "^0.8.0",
     "babel": "^5.5.6",
-    "react-addons-test-utils": "^0.14.2"
+    "react-addons-test-utils": "^15.0.2"
   },
   "main": "index.es5.js",
   "scripts": {

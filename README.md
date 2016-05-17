@@ -14,7 +14,7 @@ npm install --save react-rotation
 
 ```js
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import Rotation from 'react-rotation';
 
 render(

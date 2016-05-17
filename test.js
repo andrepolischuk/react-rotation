@@ -1,10 +1,9 @@
 import test from 'ava';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
-import Rotation from './index.es5';
-const shallowRenderer = TestUtils.createRenderer();
+import {shallow} from 'enzyme';
+import Rotation from './index';
 
-shallowRenderer.render(
+const rotation = shallow(
   <Rotation className='rotation'>
     <img src='0.jpg' />
     <img src='1.jpg' />
@@ -12,14 +11,12 @@ shallowRenderer.render(
   </Rotation>
 );
 
-const rotation = shallowRenderer.getRenderOutput();
-
 test(t => {
-  t.true(rotation.props.className === 'rotation');
-  t.true(rotation.props.children.length === 3);
+  t.true(rotation.hasClass('rotation'));
+  t.is(rotation.children().length, 3);
 
-  rotation.props.children.forEach((child, i) => {
-    t.true(child.type === 'img');
-    t.true(child.props.src === `${i}.jpg`.toString());
+  rotation.children().forEach((child, i) => {
+    t.is(child.type(), 'img');
+    t.is(child.prop('src'), `${i}.jpg`);
   });
 });

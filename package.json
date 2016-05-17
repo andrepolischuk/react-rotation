@@ -1,7 +1,28 @@
 {
   "name": "react-rotation",
-  "description": "React rotation component",
   "version": "0.3.2",
+  "description": "React rotation component",
+  "main": "index.es5.js",
+  "jsnext:main": "index.js",
+  "files": [
+    "index.js",
+    "index.es5.js"
+  ],
+  "scripts": {
+    "test": "eslint . && ava",
+    "prepublish": "babel index.js --out-file index.es5.js",
+    "postpublish": "rm -rf *.es5.js && git push --follow-tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrepolischuk/react-rotation.git"
+  },
+  "author": "Andrey Polischuk <andre.polischuk@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrepolischuk/react-rotation/issues"
+  },
+  "homepage": "https://github.com/andrepolischuk/react-rotation",
   "keywords": [
     "react",
     "image",
@@ -10,7 +31,6 @@
     "mouse",
     "touch"
   ],
-  "repository": "andrepolischuk/react-rotation",
   "dependencies": {
     "react": "^15.0.2",
     "react-dom": "^15.0.2"
@@ -32,14 +52,6 @@
     "eslint-plugin-react": "^5.1.1",
     "react-addons-test-utils": "^15.0.2"
   },
-  "main": "index.es5.js",
-  "scripts": {
-    "test": "eslint . && ava",
-    "prepublish": "babel index.js --out-file index.es5.js",
-    "postpublish": "rm -rf *.es5.js && git push --follow-tags"
-  },
-  "author": "Andrey Polischuk <andre.polischuk@gmail.com>",
-  "license": "MIT",
   "ava": {
     "require": [
       "babel-register"

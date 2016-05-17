@@ -1,15 +1,13 @@
-import React, {cloneElement, Children, Component, PropTypes} from 'react';
-import {findDOMNode} from 'react-dom';
-const styles = {position: 'relative'};
+import React, { cloneElement, Children, Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
 
 export default class Rotation extends Component {
-  state = {current: 0};
-
   static propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
     className: PropTypes.string,
     cycle: PropTypes.bool,
-    onChange: PropTypes.func
+    vertical: PropTypes.bool,
+    onChange: PropTypes.func,
+    children: PropTypes.arrayOf(PropTypes.element).isRequired
   };
 
   constructor(props) {
@@ -19,6 +17,8 @@ export default class Rotation extends Component {
     this.handleTouchMove = this.handleTouchMove.bind(this);
     this.handleTouchEnd = this.handleTouchEnd.bind(this);
   }
+
+  state = { current: 0 };
 
   componentDidMount() {
     const el = findDOMNode(this);
@@ -32,8 +32,8 @@ export default class Rotation extends Component {
   }
 
   componentDidUpdate() {
-    const handleChange = this.props.onChange;
-    if (typeof handleChange === 'function') handleChange(this.state.current);
+    const { onChange } = this.props;
+    if (typeof onChange === 'function') onChange(this.state.current);
   }
 
   componentWillUnmount() {
@@ -45,6 +45,14 @@ export default class Rotation extends Component {
     el.removeEventListener('mousedown', this.handleTouchStart, false);
     el.removeEventListener('mousemove', this.handleTouchMove, false);
     document.removeEventListener('mouseup', this.handleTouchEnd, false);
+  }
+
+  setCurrentFrame(frame) {
+    const len = this.props.children.length;
+    let current;
+    if (frame < 0) current = this.props.cycle ? frame + len : 0;
+    if (current > len - 1) current = this.props.cycle ? current - len : len - 1;
+    if (current !== this.state.current) this.setState({ current });
   }
 
   handleWheel(event) {
@@ -78,26 +86,22 @@ export default class Rotation extends Component {
   }
 
   calculatePointerPosition(event) {
-    event = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event;
+    const touch = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event;
     const el = findDOMNode(this);
-    const pos = this.props.vertical ? event.clientY - el.offsetTop : event.clientX - el.offsetLeft;
+    const pos = this.props.vertical ? touch.clientY - el.offsetTop : touch.clientX - el.offsetLeft;
     return pos;
   }
 
-  setCurrentFrame(n) {
-    const len = this.props.children.length;
-    if (n < 0) n = this.props.cycle ? n + len : 0;
-    if (n > len - 1) n = this.props.cycle ? n - len : len - 1;
-    if (n !== this.state.current) this.setState({current: n});
-  }
-
   render() {
+    const { current } = this.state;
+    const { children, className } = this.props;
+
     return (
-      <div className={this.props.className} style={styles}>
-        {Children.map(this.props.children, (child, i) => {
-          const display = this.state.current === i ? 'block' : 'none';
-          return cloneElement(child, {style: {display, width: '100%'}});
-        })}
+      <div className={className} style={{ position: 'relative' }}>
+      {Children.map(children, (child, i) => cloneElement(
+        child,
+        { style: { width: '100%', display: current === i ? 'block' : 'none' } }
+      ))}
       </div>
     );
   }

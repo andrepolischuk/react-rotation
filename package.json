@@ -11,7 +11,7 @@
   "scripts": {
     "test": "eslint . && ava",
     "prepublish": "babel index.js --out-file index.es5.js",
-    "postpublish": "rm -rf *.es5.js && git push --follow-tags"
+    "postpublish": "rimraf index.es5.js && git push --follow-tags"
   },
   "repository": {
     "type": "git",
@@ -50,7 +50,8 @@
     "eslint-plugin-import": "^1.8.0",
     "eslint-plugin-jsx-a11y": "^1.2.0",
     "eslint-plugin-react": "^5.1.1",
-    "react-addons-test-utils": "^15.0.2"
+    "react-addons-test-utils": "^15.0.2",
+    "rimraf": "^2.5.2"
   },
   "ava": {
     "require": [

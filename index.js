@@ -49,8 +49,8 @@ export default class Rotation extends Component {
 
   setCurrentFrame(frame) {
     const len = this.props.children.length;
-    let current;
-    if (frame < 0) current = this.props.cycle ? frame + len : 0;
+    let current = frame;
+    if (current < 0) current = this.props.cycle ? current + len : 0;
     if (current > len - 1) current = this.props.cycle ? current - len : len - 1;
     if (current !== this.state.current) this.setState({ current });
   }

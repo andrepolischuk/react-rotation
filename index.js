@@ -48,16 +48,17 @@ export default class Rotation extends Component {
   }
 
   setCurrentFrame(frame) {
-    const len = this.props.children.length;
+    const { cycle, children } = this.props;
+    const length = children.length;
     let current = frame;
-    if (current < 0) current = this.props.cycle ? current + len : 0;
-    if (current > len - 1) current = this.props.cycle ? current - len : len - 1;
+    if (current < 0) current = cycle ? current + length : 0;
+    if (current > length - 1) current = cycle ? current - length : length - 1;
     if (current !== this.state.current) this.setState({ current });
   }
 
   handleWheel(event) {
     event.preventDefault();
-    const deltaY = event.deltaY;
+    const { deltaY } = event;
     const delta = deltaY === 0 ? 0 : deltaY / Math.abs(deltaY);
     this.setCurrentFrame(this.state.current + delta);
   }
@@ -69,13 +70,14 @@ export default class Rotation extends Component {
   }
 
   handleTouchMove(event) {
+    const { vertical, children } = this.props;
     event.preventDefault();
     if (typeof this.pointerPosition !== 'number') return;
-    const el = findDOMNode(this);
+    const { offsetWidth, offsetHeight } = findDOMNode(this);
     const pointer = this.calculatePointerPosition(event);
-    const max = this.props.vertical ? el.offsetHeight : el.offsetWidth;
+    const max = vertical ? offsetHeight : offsetWidth;
     const offset = pointer - this.pointerPosition;
-    const delta = Math.floor(offset / max * this.props.children.length);
+    const delta = Math.floor(offset / max * children.length);
     this.setCurrentFrame(this.startFrame + delta);
   }
 
@@ -87,9 +89,9 @@ export default class Rotation extends Component {
 
   calculatePointerPosition(event) {
     const touch = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event;
-    const el = findDOMNode(this);
-    const pos = this.props.vertical ? touch.clientY - el.offsetTop : touch.clientX - el.offsetLeft;
-    return pos;
+    const { clientX, clientY } = touch;
+    const { offsetTop, offsetLeft } = findDOMNode(this);
+    return this.props.vertical ? clientY - offsetTop : clientX - offsetLeft;
   }
 
   render() {
@@ -98,10 +100,10 @@ export default class Rotation extends Component {
 
     return (
       <div className={className} style={{ position: 'relative' }}>
-      {Children.map(children, (child, i) => cloneElement(
-        child,
-        { style: { width: '100%', display: current === i ? 'block' : 'none' } }
-      ))}
+        {Children.map(children, (child, i) => cloneElement(
+          child,
+          { style: { width: '100%', display: current === i ? 'block' : 'none' } }
+        ))}
       </div>
     );
   }

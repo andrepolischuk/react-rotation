@@ -7,7 +7,8 @@ export default class Rotation extends Component {
     cycle: PropTypes.bool,
     vertical: PropTypes.bool,
     onChange: PropTypes.func,
-    children: PropTypes.arrayOf(PropTypes.element).isRequired
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    autoRotateFps: PropTypes.number
   };
 
   constructor(props) {
@@ -16,9 +17,13 @@ export default class Rotation extends Component {
     this.handleTouchStart = this.handleTouchStart.bind(this);
     this.handleTouchMove = this.handleTouchMove.bind(this);
     this.handleTouchEnd = this.handleTouchEnd.bind(this);
+    this.autorotate = this.autorotate.bind(this);
   }
 
-  state = { current: 0 };
+  state = {
+    current: 0,
+    autorote: false
+  };
 
   componentDidMount() {
     const el = findDOMNode(this);
@@ -29,11 +34,19 @@ export default class Rotation extends Component {
     el.addEventListener('mousedown', this.handleTouchStart, false);
     el.addEventListener('mousemove', this.handleTouchMove, false);
     document.addEventListener('mouseup', this.handleTouchEnd, false);
+    if (this.props.autoRotateFps) {
+      this.state.autorotate = true;
+      this.autorotate();
+    }
   }
 
   componentDidUpdate() {
     const { onChange } = this.props;
     if (typeof onChange === 'function') onChange(this.state.current);
+    if (this.props.autoRotateFps && !this.state.autorotate) {
+      this.state.autorotate = true;
+      this.autorotate();
+    }
   }
 
   componentWillUnmount() {
@@ -92,6 +105,17 @@ export default class Rotation extends Component {
     const { clientX, clientY } = touch;
     const { offsetTop, offsetLeft } = findDOMNode(this);
     return this.props.vertical ? clientY - offsetTop : clientX - offsetLeft;
+  }
+
+  autorotate() {
+    if (this.props.autoRotateFps && this.state.autorotate) {
+      window.setTimeout(() => {
+        this.setCurrentFrame(this.state.current + 1);
+        this.autorotate();
+      }, 1000 / this.props.autoRotateFps);
+    } else {
+      this.state.autorotate = false;
+    }
   }
 
   render() {

@@ -33,6 +33,7 @@ render(
 * `className` - class name of container, *string*
 * `cycle` - cyclic rotation, *boolean*
 * `onChange` - frame change event handler, *function*
+* `autoRotateFps` - frames per second for the auto rotation (0 for disabled), *number*
 
 ## Related
 

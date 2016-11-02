@@ -49,18 +49,19 @@ export default class Rotation extends Component {
     let current = frame;
     if (current < 0) current = cycle ? current + length : 0;
     if (current > length - 1) current = cycle ? current - length : length - 1;
-    if (current !== this.state.current){ 
+    if (current !== this.state.current) {
       this.setState({ current });
       if (typeof onChange === 'function') onChange(current);
-    };
+    }
   }
 
   handleWheel(event) {
-    if (this.props.disableWheel) return false;
-    event.preventDefault();
-    const { deltaY } = event;
-    const delta = deltaY === 0 ? 0 : deltaY / Math.abs(deltaY);
-    this.setCurrentFrame(this.state.current + delta);
+    if (!this.props.disableWheel) {
+      event.preventDefault();
+      const { deltaY } = event;
+      const delta = deltaY === 0 ? 0 : deltaY / Math.abs(deltaY);
+      this.setCurrentFrame(this.state.current + delta);
+    }
   }
 
   handleTouchStart(event) {

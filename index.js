@@ -8,7 +8,7 @@ export default class Rotation extends Component {
     vertical: PropTypes.bool,
     onChange: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    disableWheel: PropTypes.bool
+    scroll: PropTypes.bool
   };
 
   constructor(props) {
@@ -23,7 +23,7 @@ export default class Rotation extends Component {
 
   componentDidMount() {
     const el = findDOMNode(this);
-    el.addEventListener('wheel', this.handleWheel, false);
+    if (this.props.scroll !== false) el.addEventListener('wheel', this.handleWheel, false);
     el.addEventListener('touchstart', this.handleTouchStart, false);
     el.addEventListener('touchmove', this.handleTouchMove, false);
     el.addEventListener('touchend', this.handleTouchEnd, false);
@@ -34,7 +34,7 @@ export default class Rotation extends Component {
 
   componentWillUnmount() {
     const el = findDOMNode(this);
-    el.removeEventListener('wheel', this.handleWheel, false);
+    if (this.props.scroll !== false) el.removeEventListener('wheel', this.handleWheel, false);
     el.removeEventListener('touchstart', this.handleTouchStart, false);
     el.removeEventListener('touchmove', this.handleTouchMove, false);
     el.removeEventListener('touchend', this.handleTouchEnd, false);
@@ -56,12 +56,10 @@ export default class Rotation extends Component {
   }
 
   handleWheel(event) {
-    if (!this.props.disableWheel) {
-      event.preventDefault();
-      const { deltaY } = event;
-      const delta = deltaY === 0 ? 0 : deltaY / Math.abs(deltaY);
-      this.setCurrentFrame(this.state.current + delta);
-    }
+    event.preventDefault();
+    const { deltaY } = event;
+    const delta = deltaY === 0 ? 0 : deltaY / Math.abs(deltaY);
+    this.setCurrentFrame(this.state.current + delta);
   }
 
   handleTouchStart(event) {

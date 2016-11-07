@@ -5,10 +5,16 @@ export default class Rotation extends Component {
   static propTypes = {
     className: PropTypes.string,
     cycle: PropTypes.bool,
+    scroll: PropTypes.bool,
     vertical: PropTypes.bool,
     onChange: PropTypes.func,
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    scroll: PropTypes.bool
+    children: PropTypes.arrayOf(PropTypes.element).isRequired
+  };
+
+  static defaultProps = {
+    cycle: false,
+    scroll: true,
+    vertical: false
   };
 
   constructor(props) {
@@ -23,7 +29,7 @@ export default class Rotation extends Component {
 
   componentDidMount() {
     const el = findDOMNode(this);
-    if (this.props.scroll !== false) el.addEventListener('wheel', this.handleWheel, false);
+    if (this.props.scroll) el.addEventListener('wheel', this.handleWheel, false);
     el.addEventListener('touchstart', this.handleTouchStart, false);
     el.addEventListener('touchmove', this.handleTouchMove, false);
     el.addEventListener('touchend', this.handleTouchEnd, false);
@@ -34,7 +40,7 @@ export default class Rotation extends Component {
 
   componentWillUnmount() {
     const el = findDOMNode(this);
-    if (this.props.scroll !== false) el.removeEventListener('wheel', this.handleWheel, false);
+    if (this.props.scroll) el.removeEventListener('wheel', this.handleWheel, false);
     el.removeEventListener('touchstart', this.handleTouchStart, false);
     el.removeEventListener('touchmove', this.handleTouchMove, false);
     el.removeEventListener('touchend', this.handleTouchEnd, false);

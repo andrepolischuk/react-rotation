@@ -109,7 +109,8 @@ export default class Rotation extends Component {
     const { children, className } = this.props;
 
     return (
-      <div onKeyDown={this.keyHandler}
+      <div
+        onKeyDown={this.keyHandler}
         tabIndex={0}
         className={className}
         style={{ position: 'relative' }}

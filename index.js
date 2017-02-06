@@ -87,6 +87,16 @@ export default class Rotation extends Component {
     this.startFrame = null;
   }
 
+  keyHandler(event) {
+    if(!event.target.tagName.match('TEXTAREA|INPUT|SELECT')) {
+      if (event.keyCode === 37) {
+        this.setCurrentFrame(this.state.current - 1);
+      } else if (event.keyCode === 39) {
+        this.setCurrentFrame(this.state.current + 1);
+      }
+    }
+  }
+
   calculatePointerPosition(event) {
     const touch = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event;
     const { clientX, clientY } = touch;
@@ -99,7 +109,7 @@ export default class Rotation extends Component {
     const { children, className } = this.props;
 
     return (
-      <div className={className} style={{ position: 'relative' }}>
+      <div onKeyDown={this.keyHandler.bind(this)} tabIndex={0} className={className} style={{ position: 'relative' }}>
         {Children.map(children, (child, i) => cloneElement(
           child,
           { style: { width: '100%', display: current === i ? 'block' : 'none' } }

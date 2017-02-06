@@ -112,7 +112,8 @@ export default class Rotation extends Component {
       <div onKeyDown={this.keyHandler}
         tabIndex={0}
         className={className}
-        style={{ position: 'relative' }}>
+        style={{ position: 'relative' }}
+      >
         {Children.map(children, (child, i) => cloneElement(
           child,
           { style: { width: '100%', display: current === i ? 'block' : 'none' } }

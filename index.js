@@ -7,8 +7,13 @@ export default class Rotation extends Component {
     cycle: PropTypes.bool,
     vertical: PropTypes.bool,
     onChange: PropTypes.func,
-    children: PropTypes.arrayOf(PropTypes.element).isRequired
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    accessible: PropTypes.bool
   };
+
+  static defaultProps = {
+    accessible: true
+  }
 
   constructor(props) {
     super(props);
@@ -89,9 +94,12 @@ export default class Rotation extends Component {
 
   keyHandler = (event) => {
     if (!event.target.tagName.match('TEXTAREA|INPUT|SELECT')) {
-      if (event.keyCode === 37) {
+      const prevKey = this.props.vertical ? 38 : 37;
+      const nextKey = this.props.vertical ? 40 : 39;
+
+      if (event.keyCode === prevKey) {
         this.setCurrentFrame(this.state.current - 1);
-      } else if (event.keyCode === 39) {
+      } else if (event.keyCode === nextKey) {
         this.setCurrentFrame(this.state.current + 1);
       }
     }
@@ -110,8 +118,8 @@ export default class Rotation extends Component {
 
     return (
       <div
-        onKeyDown={this.keyHandler}
-        tabIndex={0}
+        onKeyDown={this.props.accessible ? this.keyHandler : null}
+        tabIndex={this.props.accessible ? 0 : null}
         className={className}
         style={{ position: 'relative' }}
       >

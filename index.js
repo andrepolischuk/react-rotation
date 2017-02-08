@@ -5,6 +5,7 @@ export default class Rotation extends Component {
   static propTypes = {
     className: PropTypes.string,
     cycle: PropTypes.bool,
+    scroll: PropTypes.bool,
     vertical: PropTypes.bool,
     onChange: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
@@ -12,8 +13,11 @@ export default class Rotation extends Component {
   };
 
   static defaultProps = {
-    accessible: true
-  }
+    accessible: true,
+    cycle: false,
+    scroll: true,
+    vertical: false
+  };
 
   constructor(props) {
     super(props);
@@ -27,7 +31,7 @@ export default class Rotation extends Component {
 
   componentDidMount() {
     const el = findDOMNode(this);
-    el.addEventListener('wheel', this.handleWheel, false);
+    if (this.props.scroll) el.addEventListener('wheel', this.handleWheel, false);
     el.addEventListener('touchstart', this.handleTouchStart, false);
     el.addEventListener('touchmove', this.handleTouchMove, false);
     el.addEventListener('touchend', this.handleTouchEnd, false);
@@ -36,14 +40,9 @@ export default class Rotation extends Component {
     document.addEventListener('mouseup', this.handleTouchEnd, false);
   }
 
-  componentDidUpdate() {
-    const { onChange } = this.props;
-    if (typeof onChange === 'function') onChange(this.state.current);
-  }
-
   componentWillUnmount() {
     const el = findDOMNode(this);
-    el.removeEventListener('wheel', this.handleWheel, false);
+    if (this.props.scroll) el.removeEventListener('wheel', this.handleWheel, false);
     el.removeEventListener('touchstart', this.handleTouchStart, false);
     el.removeEventListener('touchmove', this.handleTouchMove, false);
     el.removeEventListener('touchend', this.handleTouchEnd, false);
@@ -53,12 +52,15 @@ export default class Rotation extends Component {
   }
 
   setCurrentFrame(frame) {
-    const { cycle, children } = this.props;
+    const { cycle, children, onChange } = this.props;
     const length = children.length;
     let current = frame;
     if (current < 0) current = cycle ? current + length : 0;
     if (current > length - 1) current = cycle ? current - length : length - 1;
-    if (current !== this.state.current) this.setState({ current });
+    if (current !== this.state.current) {
+      this.setState({ current });
+      if (typeof onChange === 'function') onChange(current);
+    }
   }
 
   handleWheel(event) {

@@ -7,13 +7,8 @@ export default class Rotation extends Component {
     cycle: PropTypes.bool,
     vertical: PropTypes.bool,
     onChange: PropTypes.func,
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    accessible: PropTypes.bool
+    children: PropTypes.arrayOf(PropTypes.element).isRequired
   };
-
-  static defaultProps = {
-    accessible: true
-  }
 
   constructor(props) {
     super(props);
@@ -114,12 +109,12 @@ export default class Rotation extends Component {
 
   render() {
     const { current } = this.state;
-    const { children, className } = this.props;
+    const { children, className, tabIndex } = this.props;
 
     return (
       <div
-        onKeyDown={this.props.accessible ? this.keyHandler : null}
-        tabIndex={this.props.accessible ? 0 : null}
+        tabIndex={tabIndex}
+        onKeyDown={tabIndex >= 0 ? this.keyHandler : null}
         className={className}
         style={{ position: 'relative' }}
       >

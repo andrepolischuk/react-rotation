@@ -8,7 +8,8 @@ export default class Rotation extends Component {
     scroll: PropTypes.bool,
     vertical: PropTypes.bool,
     onChange: PropTypes.func,
-    children: PropTypes.arrayOf(PropTypes.element).isRequired
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    tabIndex: PropTypes.number
   };
 
 

@@ -31,7 +31,9 @@ render(
 ## Props
 
 * `className` - class name of container, *string*
-* `cycle` - cyclic rotation, *boolean*
+* `cycle` - cyclic rotation, *boolean*, default `false`
+* `scroll` - rotation by wheel/scroll, *boolean*, default `true`
+* `vertical` - vertical orientation, *boolean*, default `false`
 * `onChange` - frame change event handler, *function*
 
 ## Related

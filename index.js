@@ -9,14 +9,17 @@ export default class Rotation extends Component {
     vertical: PropTypes.bool,
     onChange: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    tabIndex: PropTypes.number
+    tabIndex: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ])
   };
-
 
   static defaultProps = {
     cycle: false,
     scroll: true,
-    vertical: false
+    vertical: false,
+    tabIndex: 0,
   };
 
   constructor(props) {

@@ -2,7 +2,7 @@
 
 > [React][react] rotation component
 
-Supports wheel, mouse and touch events
+Supports wheel, keyboard, mouse and touch events
 
 ## Install
 
@@ -34,6 +34,7 @@ render(
 * `cycle` - cyclic rotation, *boolean*, default `false`
 * `scroll` - rotation by wheel/scroll, *boolean*, default `true`
 * `vertical` - vertical orientation, *boolean*, default `false`
+* `tabIndex` - order of focusable element, *number*, default `0`
 * `onChange` - frame change event handler, *function*
 
 ## Related

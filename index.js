@@ -19,18 +19,12 @@ export default class Rotation extends Component {
     cycle: false,
     scroll: true,
     vertical: false,
-    tabIndex: 0,
+    tabIndex: 0
   };
 
-  constructor(props) {
-    super(props);
-    this.handleWheel = this.handleWheel.bind(this);
-    this.handleTouchStart = this.handleTouchStart.bind(this);
-    this.handleTouchMove = this.handleTouchMove.bind(this);
-    this.handleTouchEnd = this.handleTouchEnd.bind(this);
-  }
-
-  state = { current: 0 };
+  state = {
+    current: 0
+  };
 
   componentDidMount() {
     const el = findDOMNode(this);
@@ -66,20 +60,20 @@ export default class Rotation extends Component {
     }
   }
 
-  handleWheel(event) {
+  handleWheel = (event) => {
     event.preventDefault();
     const { deltaY } = event;
     const delta = deltaY === 0 ? 0 : deltaY / Math.abs(deltaY);
     this.setCurrentFrame(this.state.current + delta);
   }
 
-  handleTouchStart(event) {
+  handleTouchStart = (event) => {
     event.preventDefault();
     this.pointerPosition = this.calculatePointerPosition(event);
     this.startFrame = this.state.current;
   }
 
-  handleTouchMove(event) {
+  handleTouchMove = (event) => {
     const { vertical, children } = this.props;
     event.preventDefault();
     if (typeof this.pointerPosition !== 'number') return;
@@ -91,21 +85,23 @@ export default class Rotation extends Component {
     this.setCurrentFrame(this.startFrame + delta);
   }
 
-  handleTouchEnd(event) {
+  handleTouchEnd = (event) => {
     event.preventDefault();
     this.pointerPosition = null;
     this.startFrame = null;
   }
 
-  keyHandler = (event) => {
+  handleKey = (event) => {
     if (!event.target.tagName.match('TEXTAREA|INPUT|SELECT')) {
-      const prevKey = this.props.vertical ? 38 : 37;
-      const nextKey = this.props.vertical ? 40 : 39;
+      const { current } = this.state;
+      const { vertical } = this.props;
+      const prevKey = vertical ? 38 : 37;
+      const nextKey = vertical ? 40 : 39;
 
       if (event.keyCode === prevKey) {
-        this.setCurrentFrame(this.state.current - 1);
+        this.setCurrentFrame(current - 1);
       } else if (event.keyCode === nextKey) {
-        this.setCurrentFrame(this.state.current + 1);
+        this.setCurrentFrame(current + 1);
       }
     }
   }
@@ -124,7 +120,7 @@ export default class Rotation extends Component {
     return (
       <div
         tabIndex={tabIndex}
-        onKeyDown={tabIndex >= 0 ? this.keyHandler : null}
+        onKeyDown={tabIndex >= 0 ? this.handleKey : null}
         className={className}
         style={{ position: 'relative' }}
       >

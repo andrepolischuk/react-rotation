@@ -7,6 +7,7 @@ export default class Rotation extends Component {
     cycle: PropTypes.bool,
     scroll: PropTypes.bool,
     vertical: PropTypes.bool,
+    reverse: PropTypes.bool,
     onChange: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     tabIndex: PropTypes.oneOfType([
@@ -63,8 +64,10 @@ export default class Rotation extends Component {
   handleWheel = (event) => {
     event.preventDefault();
     const { deltaY } = event;
+    const { reverse } = this.props;
+    const { current } = this.state;
     const delta = deltaY === 0 ? 0 : deltaY / Math.abs(deltaY);
-    this.setCurrentFrame(this.state.current + delta);
+    this.setCurrentFrame(reverse ? current - delta : current + delta);
   }
 
   handleTouchStart = (event) => {
@@ -74,7 +77,7 @@ export default class Rotation extends Component {
   }
 
   handleTouchMove = (event) => {
-    const { vertical, children } = this.props;
+    const { vertical, children, reverse } = this.props;
     event.preventDefault();
     if (typeof this.pointerPosition !== 'number') return;
     const { offsetWidth, offsetHeight } = findDOMNode(this);
@@ -82,7 +85,7 @@ export default class Rotation extends Component {
     const max = vertical ? offsetHeight : offsetWidth;
     const offset = pointer - this.pointerPosition;
     const delta = Math.floor(offset / max * children.length);
-    this.setCurrentFrame(this.startFrame + delta);
+    this.setCurrentFrame(reverse ? this.startFrame - delta : this.startFrame + delta);
   }
 
   handleTouchEnd = (event) => {
@@ -94,14 +97,14 @@ export default class Rotation extends Component {
   handleKey = (event) => {
     if (!event.target.tagName.match('TEXTAREA|INPUT|SELECT')) {
       const { current } = this.state;
-      const { vertical } = this.props;
+      const { vertical, reverse } = this.props;
       const prevKey = vertical ? 38 : 37;
       const nextKey = vertical ? 40 : 39;
 
       if (event.keyCode === prevKey) {
-        this.setCurrentFrame(current - 1);
+        this.setCurrentFrame(reverse ? current + 1 : current - 1);
       } else if (event.keyCode === nextKey) {
-        this.setCurrentFrame(current + 1);
+        this.setCurrentFrame(reverse ? current - 1 : current + 1);
       }
     }
   }

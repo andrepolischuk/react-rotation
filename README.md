@@ -34,6 +34,7 @@ render(
 * `cycle` - cyclic rotation, *boolean*, default `false`
 * `scroll` - rotation by wheel/scroll, *boolean*, default `true`
 * `vertical` - vertical orientation, *boolean*, default `false`
+* `reverse` - reverse rotation, *boolean*, default `false`
 * `tabIndex` - order of focusable element, *number*, default `0`
 * `onChange` - frame change event handler, *function*
 

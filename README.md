@@ -36,6 +36,7 @@ render(
 * `vertical` - vertical orientation, *boolean*, default `false`
 * `reverse` - reverse rotation, *boolean*, default `false`
 * `tabIndex` - order of focusable element, *number*, default `0`
+* `autoPlay` - start a frame playback, *boolean*, default `false`
 * `onChange` - frame change event handler, *function*
 
 ## Related

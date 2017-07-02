@@ -8,6 +8,7 @@ export default class Rotation extends Component {
     scroll: PropTypes.bool,
     vertical: PropTypes.bool,
     reverse: PropTypes.bool,
+    autoPlay: PropTypes.bool,
     onChange: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     tabIndex: PropTypes.oneOfType([
@@ -20,7 +21,8 @@ export default class Rotation extends Component {
     cycle: false,
     scroll: true,
     vertical: false,
-    tabIndex: 0
+    tabIndex: 0,
+    autoPlay: false
   };
 
   state = {
@@ -36,6 +38,17 @@ export default class Rotation extends Component {
     el.addEventListener('mousedown', this.handleTouchStart, false);
     el.addEventListener('mousemove', this.handleTouchMove, false);
     document.addEventListener('mouseup', this.handleTouchEnd, false);
+    if (this.props.autoPlay) this.nextFrame();
+  }
+
+  componentWillReceiveProps({ autoPlay }) {
+    if (autoPlay !== this.props.autoPlay) {
+      if (autoPlay) {
+        this.nextFrame();
+      } else {
+        this.stop();
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -47,6 +60,7 @@ export default class Rotation extends Component {
     el.removeEventListener('mousedown', this.handleTouchStart, false);
     el.removeEventListener('mousemove', this.handleTouchMove, false);
     document.removeEventListener('mouseup', this.handleTouchEnd, false);
+    this.stop();
   }
 
   setCurrentFrame(frame) {
@@ -55,10 +69,27 @@ export default class Rotation extends Component {
     let current = frame;
     if (current < 0) current = cycle ? current + length : 0;
     if (current > length - 1) current = cycle ? current - length : length - 1;
+
     if (current !== this.state.current) {
       this.setState({ current });
       if (typeof onChange === 'function') onChange(current);
+    } else if (this.props.autoPlay) {
+      this.stop();
     }
+  }
+
+  nextFrame() {
+    const { current } = this.state;
+    const { reverse } = this.props;
+    this.setCurrentFrame(reverse ? current - 1 : current + 1);
+
+    this.nextTimeout = setTimeout(() => {
+      this.nextFrame();
+    }, 75);
+  }
+
+  stop() {
+    clearTimeout(this.nextTimeout);
   }
 
   handleWheel = (event) => {
@@ -67,6 +98,7 @@ export default class Rotation extends Component {
     const { reverse } = this.props;
     const { current } = this.state;
     const delta = deltaY === 0 ? 0 : deltaY / Math.abs(deltaY);
+    this.stop();
     this.setCurrentFrame(reverse ? current - delta : current + delta);
   }
 
@@ -74,6 +106,7 @@ export default class Rotation extends Component {
     event.preventDefault();
     this.pointerPosition = this.calculatePointerPosition(event);
     this.startFrame = this.state.current;
+    this.stop();
   }
 
   handleTouchMove = (event) => {
@@ -100,6 +133,7 @@ export default class Rotation extends Component {
       const { vertical, reverse } = this.props;
       const prevKey = vertical ? 38 : 37;
       const nextKey = vertical ? 40 : 39;
+      this.stop();
 
       if (event.keyCode === prevKey) {
         this.setCurrentFrame(reverse ? current + 1 : current - 1);

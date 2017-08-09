@@ -13,9 +13,9 @@ npm install --save react-rotation
 ## Usage
 
 ```js
-import React from 'react';
-import { render } from 'react-dom';
-import Rotation from 'react-rotation';
+import React from 'react'
+import {render} from 'react-dom'
+import Rotation from 'react-rotation'
 
 render(
   <Rotation>
@@ -25,7 +25,7 @@ render(
     <img src='images/03.jpg' />
   </Rotation>,
   document.querySelector('.container')
-);
+)
 ```
 
 ## Props

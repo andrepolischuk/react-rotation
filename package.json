@@ -1,6 +1,6 @@
 {
   "name": "react-rotation",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "React rotation component",
   "main": "index.es5.js",
   "jsnext:main": "index.js",

@@ -1,7 +1,7 @@
-import test from 'ava';
-import React from 'react';
-import { shallow } from 'enzyme';
-import Rotation from './index';
+import test from 'ava'
+import React from 'react'
+import {shallow} from 'enzyme'
+import Rotation from './index'
 
 const rotation = shallow(
   <Rotation className='rotation'>
@@ -9,14 +9,14 @@ const rotation = shallow(
     <img src='1.jpg' alt='' />
     <img src='2.jpg' alt='' />
   </Rotation>
-);
+)
 
 test(t => {
-  t.true(rotation.hasClass('rotation'));
-  t.is(rotation.children().length, 3);
+  t.true(rotation.hasClass('rotation'))
+  t.is(rotation.children().length, 3)
 
   rotation.children().forEach((child, i) => {
-    t.is(child.type(), 'img');
-    t.is(child.prop('src'), `${i}.jpg`);
-  });
-});
+    t.is(child.type(), 'img')
+    t.is(child.prop('src'), `${i}.jpg`)
+  })
+})

@@ -49,6 +49,16 @@
     "rimraf": "^2.5.2",
     "standard": "^10.0.3"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread",
+      "transform-class-properties"
+    ]
+  },
   "standard": {
     "parser": "babel-eslint"
   },

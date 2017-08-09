@@ -1,4 +1,5 @@
-import React, {cloneElement, Children, Component, PropTypes} from 'react'
+import React, {cloneElement, Children, Component} from 'react'
+import PropTypes from 'prop-types'
 import {findDOMNode} from 'react-dom'
 
 export default class Rotation extends Component {

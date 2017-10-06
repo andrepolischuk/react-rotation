@@ -1,6 +1,5 @@
 import React, {cloneElement, Children, Component} from 'react'
 import PropTypes from 'prop-types'
-import {findDOMNode} from 'react-dom'
 
 export default class Rotation extends Component {
   static propTypes = {
@@ -28,7 +27,8 @@ export default class Rotation extends Component {
     vertical: false,
     tabIndex: 0,
     autoPlay: false,
-    pauseOnHover: false
+    pauseOnHover: false,
+    onChange: () => {}
   }
 
   hovered = false
@@ -38,21 +38,11 @@ export default class Rotation extends Component {
   }
 
   componentDidMount () {
-    const el = findDOMNode(this)
+    document.addEventListener('mouseup', this.touchEnd, false)
 
-    if (this.props.pauseOnHover) {
-      el.addEventListener('mouseenter', this.handleHover, false)
-      el.addEventListener('mouseleave', this.handleUnhover, false)
+    if (this.props.autoPlay) {
+      this.nextFrame()
     }
-
-    if (this.props.scroll) el.addEventListener('wheel', this.handleWheel, false)
-    el.addEventListener('touchstart', this.handleTouchStart, false)
-    el.addEventListener('touchmove', this.handleTouchMove, false)
-    el.addEventListener('touchend', this.handleTouchEnd, false)
-    el.addEventListener('mousedown', this.handleTouchStart, false)
-    el.addEventListener('mousemove', this.handleTouchMove, false)
-    document.addEventListener('mouseup', this.handleTouchEnd, false)
-    if (this.props.autoPlay) this.nextFrame()
   }
 
   componentWillReceiveProps ({autoPlay}) {
@@ -66,20 +56,7 @@ export default class Rotation extends Component {
   }
 
   componentWillUnmount () {
-    const el = findDOMNode(this)
-    if (this.props.scroll) el.removeEventListener('wheel', this.handleWheel, false)
-
-    if (this.props.pauseOnHover) {
-      el.removeEventListener('mouseenter', this.handleHover, false)
-      el.removeEventListener('mouseleave', this.handleUnhover, false)
-    }
-
-    el.removeEventListener('touchstart', this.handleTouchStart, false)
-    el.removeEventListener('touchmove', this.handleTouchMove, false)
-    el.removeEventListener('touchend', this.handleTouchEnd, false)
-    el.removeEventListener('mousedown', this.handleTouchStart, false)
-    el.removeEventListener('mousemove', this.handleTouchMove, false)
-    document.removeEventListener('mouseup', this.handleTouchEnd, false)
+    document.removeEventListener('mouseup', this.touchEnd, false)
     this.stop()
   }
 
@@ -87,12 +64,18 @@ export default class Rotation extends Component {
     const {cycle, children, onChange} = this.props
     const length = children.length
     let current = frame
-    if (current < 0) current = cycle ? current + length : 0
-    if (current > length - 1) current = cycle ? current - length : length - 1
+
+    if (current < 0) {
+      current = cycle ? current + length : 0
+    }
+
+    if (current > length - 1) {
+      current = cycle ? current - length : length - 1
+    }
 
     if (current !== this.state.current) {
       this.setState({current})
-      if (typeof onChange === 'function') onChange(current)
+      onChange(current)
     } else if (this.props.autoPlay) {
       this.stop()
     }
@@ -116,15 +99,15 @@ export default class Rotation extends Component {
     clearTimeout(this.nextTimeout)
   }
 
-  handleHover = event => {
+  hover = event => {
     this.hovered = true
   }
 
-  handleUnhover = event => {
+  unhover = event => {
     this.hovered = false
   }
 
-  handleWheel = event => {
+  wheelMove = event => {
     event.preventDefault()
     const {deltaY} = event
     const {reverse} = this.props
@@ -134,18 +117,23 @@ export default class Rotation extends Component {
     this.setCurrentFrame(reverse ? current - delta : current + delta)
   }
 
-  handleTouchStart = event => {
+  touchStart = event => {
     event.preventDefault()
     this.pointerPosition = this.calculatePointerPosition(event)
     this.startFrame = this.state.current
     this.stop()
   }
 
-  handleTouchMove = event => {
-    const {vertical, children, reverse} = this.props
+  touchMove = event => {
+    const notTouched = typeof this.pointerPosition !== 'number'
     event.preventDefault()
-    if (typeof this.pointerPosition !== 'number') return
-    const {offsetWidth, offsetHeight} = findDOMNode(this)
+
+    if (notTouched) {
+      return
+    }
+
+    const {vertical, children, reverse} = this.props
+    const {offsetWidth, offsetHeight} = event.currentTarget
     const pointer = this.calculatePointerPosition(event)
     const max = vertical ? offsetHeight : offsetWidth
     const offset = pointer - this.pointerPosition
@@ -153,42 +141,61 @@ export default class Rotation extends Component {
     this.setCurrentFrame(reverse ? this.startFrame - delta : this.startFrame + delta)
   }
 
-  handleTouchEnd = event => {
+  touchEnd = event => {
     event.preventDefault()
     this.pointerPosition = null
     this.startFrame = null
   }
 
-  handleKey = event => {
-    if (!event.target.tagName.match('TEXTAREA|INPUT|SELECT')) {
-      const {current} = this.state
-      const {vertical, reverse} = this.props
-      const prevKey = vertical ? 38 : 37
-      const nextKey = vertical ? 40 : 39
-      this.stop()
+  pressKey = event => {
+    const eventOnField = event.target.tagName.match('TEXTAREA|INPUT|SELECT')
 
-      if (event.keyCode === prevKey) {
-        this.setCurrentFrame(reverse ? current + 1 : current - 1)
-      } else if (event.keyCode === nextKey) {
-        this.setCurrentFrame(reverse ? current - 1 : current + 1)
-      }
+    if (eventOnField) {
+      return
+    }
+
+    const {current} = this.state
+    const {vertical, reverse} = this.props
+    const prevKey = vertical ? 38 : 37
+    const nextKey = vertical ? 40 : 39
+    this.stop()
+
+    if (event.keyCode === prevKey) {
+      this.setCurrentFrame(reverse ? current + 1 : current - 1)
+    } else if (event.keyCode === nextKey) {
+      this.setCurrentFrame(reverse ? current - 1 : current + 1)
     }
   }
 
   calculatePointerPosition (event) {
     const {clientX, clientY} = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event
-    const {offsetTop, offsetLeft} = findDOMNode(this)
+    const {offsetTop, offsetLeft} = event.currentTarget
     return this.props.vertical ? clientY - offsetTop : clientX - offsetLeft
   }
 
   render () {
     const {current} = this.state
-    const {children, className, tabIndex} = this.props
+
+    const {
+      children,
+      className,
+      tabIndex,
+      scroll,
+      pauseOnHover
+    } = this.props
 
     return (
       <div
         tabIndex={tabIndex}
-        onKeyDown={tabIndex >= 0 ? this.handleKey : null}
+        onTouchStart={this.touchStart}
+        onTouchMove={this.touchMove}
+        onTouchEnd={this.touchEnd}
+        onMouseDown={this.touchStart}
+        onMouseMove={this.touchMove}
+        onWheel={scroll ? this.wheelMove : null}
+        onMouseEnter={pauseOnHover ? this.hover : null}
+        onMouseLeave={pauseOnHover ? this.unhover : null}
+        onKeyDown={tabIndex >= 0 ? this.pressKey : null}
         className={className}
         style={{position: 'relative'}}>
         {Children.map(children, (child, i) => cloneElement(

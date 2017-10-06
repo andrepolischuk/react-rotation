@@ -18,7 +18,8 @@ export default class Rotation extends Component {
     tabIndex: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
+    pauseOnHover: PropTypes.bool
   }
 
   static defaultProps = {
@@ -26,8 +27,11 @@ export default class Rotation extends Component {
     scroll: true,
     vertical: false,
     tabIndex: 0,
-    autoPlay: false
+    autoPlay: false,
+    pauseOnHover: false
   }
+
+  hovered = false
 
   state = {
     current: 0
@@ -35,6 +39,12 @@ export default class Rotation extends Component {
 
   componentDidMount () {
     const el = findDOMNode(this)
+
+    if (this.props.pauseOnHover) {
+      el.addEventListener('mouseenter', this.handleHover, false)
+      el.addEventListener('mouseleave', this.handleUnhover, false)
+    }
+
     if (this.props.scroll) el.addEventListener('wheel', this.handleWheel, false)
     el.addEventListener('touchstart', this.handleTouchStart, false)
     el.addEventListener('touchmove', this.handleTouchMove, false)
@@ -58,6 +68,12 @@ export default class Rotation extends Component {
   componentWillUnmount () {
     const el = findDOMNode(this)
     if (this.props.scroll) el.removeEventListener('wheel', this.handleWheel, false)
+
+    if (this.props.pauseOnHover) {
+      el.removeEventListener('mouseenter', this.handleHover, false)
+      el.removeEventListener('mouseleave', this.handleUnhover, false)
+    }
+
     el.removeEventListener('touchstart', this.handleTouchStart, false)
     el.removeEventListener('touchmove', this.handleTouchMove, false)
     el.removeEventListener('touchend', this.handleTouchEnd, false)
@@ -84,10 +100,12 @@ export default class Rotation extends Component {
 
   nextFrame () {
     const {current} = this.state
-    const {reverse, autoPlay} = this.props
+    const {reverse, autoPlay, pauseOnHover} = this.props
     const playTimeout = autoPlay === true ? 75 : autoPlay
 
-    this.setCurrentFrame(reverse ? current - 1 : current + 1)
+    if (!this.hovered || !pauseOnHover) {
+      this.setCurrentFrame(reverse ? current - 1 : current + 1)
+    }
 
     this.nextTimeout = setTimeout(() => {
       this.nextFrame()
@@ -96,6 +114,14 @@ export default class Rotation extends Component {
 
   stop () {
     clearTimeout(this.nextTimeout)
+  }
+
+  handleHover = event => {
+    this.hovered = true
+  }
+
+  handleUnhover = event => {
+    this.hovered = false
   }
 
   handleWheel = event => {

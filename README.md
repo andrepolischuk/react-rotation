@@ -37,6 +37,7 @@ render(
 * `reverse` - reverse rotation, *boolean*, default `false`
 * `tabIndex` - order of focusable element, *number|string*, default `0`
 * `autoPlay` - start a frame playback with specified speed, *boolean|number*, default `false`
+* `pauseOnHover` - pause a frame playback on mouse hover, *boolean*, default `false`
 * `onChange` - frame change event handler, *function*
 
 ## Related

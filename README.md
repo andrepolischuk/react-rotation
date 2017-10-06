@@ -35,8 +35,8 @@ render(
 * `scroll` - rotation by wheel/scroll, *boolean*, default `true`
 * `vertical` - vertical orientation, *boolean*, default `false`
 * `reverse` - reverse rotation, *boolean*, default `false`
-* `tabIndex` - order of focusable element, *number*, default `0`
-* `autoPlay` - start a frame playback, *boolean*, default `false`
+* `tabIndex` - order of focusable element, *number|string*, default `0`
+* `autoPlay` - start a frame playback with specified speed, *boolean|number*, default `false`
 * `onChange` - frame change event handler, *function*
 
 ## Related

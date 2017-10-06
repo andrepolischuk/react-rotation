@@ -9,7 +9,10 @@ export default class Rotation extends Component {
     scroll: PropTypes.bool,
     vertical: PropTypes.bool,
     reverse: PropTypes.bool,
-    autoPlay: PropTypes.bool,
+    autoPlay: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.number
+    ]),
     onChange: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     tabIndex: PropTypes.oneOfType([
@@ -81,12 +84,14 @@ export default class Rotation extends Component {
 
   nextFrame () {
     const {current} = this.state
-    const {reverse} = this.props
+    const {reverse, autoPlay} = this.props
+    const playTimeout = autoPlay === true ? 75 : autoPlay
+
     this.setCurrentFrame(reverse ? current - 1 : current + 1)
 
     this.nextTimeout = setTimeout(() => {
       this.nextFrame()
-    }, 75)
+    }, playTimeout)
   }
 
   stop () {
@@ -145,8 +150,7 @@ export default class Rotation extends Component {
   }
 
   calculatePointerPosition (event) {
-    const touch = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event
-    const {clientX, clientY} = touch
+    const {clientX, clientY} = event.type.indexOf('touch') === 0 ? event.changedTouches[0] : event
     const {offsetTop, offsetLeft} = findDOMNode(this)
     return this.props.vertical ? clientY - offsetTop : clientX - offsetLeft
   }

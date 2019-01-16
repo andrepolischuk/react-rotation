@@ -40,6 +40,34 @@ render(
 * `pauseOnHover` - pause a frame playback on mouse hover, *boolean*, default `false`
 * `onChange` - frame change event handler, *function*
 
+## Tips
+
+You can use any third-party wrapper to lazy loading the images with placeholder:
+
+```js
+import React from 'react'
+import {render} from 'react-dom'
+import Lazy from 'react-lazyload'
+import Rotation from 'react-rotation'
+import Spinner from './components/Spinner'
+
+const Image = ({height, src}) => (
+  <Lazy height={height} placeholder={<Spinner />}>
+    <img src={src} />
+  </Lazy>
+)
+
+render(
+  <Rotation>
+    <Image height={200} src='images/00.jpg' />
+    <Image height={200} src='images/01.jpg' />
+    <Image height={200} src='images/02.jpg' />
+    <Image height={200} src='images/03.jpg' />
+  </Rotation>,
+  document.querySelector('.container')
+)
+```
+
 ## Related
 
 * [circlr][circlr] — animation rotation via scroll, mouse and touch events

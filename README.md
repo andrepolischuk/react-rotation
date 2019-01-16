@@ -42,7 +42,7 @@ render(
 
 ## Tips
 
-You can use any third-party wrapper to lazy loading the images with placeholder:
+You can use any third-party wrapper for lazy loading the images with placeholder:
 
 ```js
 import React from 'react'

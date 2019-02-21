@@ -90,7 +90,7 @@ export default class Rotation extends Component {
       this.setCurrentFrame(reverse ? current - 1 : current + 1)
     }
 
-    this.nextTimeout = setTimeout(() => {
+    this.nextTimeout = autoPlay && setTimeout(() => {
       this.nextFrame()
     }, playTimeout)
   }

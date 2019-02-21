@@ -28,13 +28,14 @@ export default class Rotation extends Component {
     tabIndex: 0,
     autoPlay: false,
     pauseOnHover: false,
-    onChange: () => {}
+    onChange: () => {},
+    initialFrame: 0
   }
 
   hovered = false
 
   state = {
-    current: 0
+    current: this.props.initialFrame
   }
 
   componentDidMount () {
@@ -45,13 +46,17 @@ export default class Rotation extends Component {
     }
   }
 
-  componentWillReceiveProps ({autoPlay}) {
+  componentWillReceiveProps ({autoPlay, initialFrame}) {
     if (autoPlay !== this.props.autoPlay) {
       if (autoPlay) {
         this.nextFrame()
       } else {
         this.stop()
       }
+    }
+
+    if (initialFrame !== this.props.initialFrame) {
+      this.setCurrentFrame(initialFrame)
     }
   }
 

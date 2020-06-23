@@ -38,7 +38,7 @@ export default class Rotation extends Component {
   }
 
   componentDidMount () {
-    document.addEventListener('mouseup', this.touchEnd, false)
+    document.addEventListener('mouseup', this.mouseUp, false)
 
     if (this.props.autoPlay) {
       this.nextFrame()
@@ -56,7 +56,7 @@ export default class Rotation extends Component {
   }
 
   componentWillUnmount () {
-    document.removeEventListener('mouseup', this.touchEnd, false)
+    document.removeEventListener('mouseup', this.mouseUp, false)
     this.stop()
   }
 
@@ -143,6 +143,11 @@ export default class Rotation extends Component {
 
   touchEnd = event => {
     event.preventDefault()
+    this.pointerPosition = null
+    this.startFrame = null
+  }
+
+  mouseUp = () => {
     this.pointerPosition = null
     this.startFrame = null
   }
